@@ -1,0 +1,48 @@
+{
+  "name": "wix-ui-tpa-connected",
+  "version": "1.0.0",
+  "description": "Connection of Wix UI TPA to settings made simple",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepublishOnly": "npm run lint && npm run test && npm run build",
+    "test": "./node_modules/.bin/jest --forceExit --detectOpenHandles",
+    "testSync": "./node_modules/.bin/jest --runInBand --forceExit --detectOpenHandles",
+    "lint": "./node_modules/.bin/tslint -c ./tslint.json -p ./tsconfig.json -t stylish ./lib/**/*.ts",
+		"buildStyles": "./node_modules/.bin/webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:wix-playground/wix-ui-tpa-connected.git"
+  },
+  "keywords": [
+    "WIX",
+    "UI",
+    "TPA",
+    "settings",
+    "connected",
+    "color",
+    "colors",
+    "font",
+    "fonts",
+    "wrapper"
+  ],
+  "author": "Vytenis Urbonavicius",
+  "license": "MIT",
+  "homepage": "https://github.com/wix-playground/wix-ui-tpa-connected",
+  "dependencies": {},
+  "devDependencies": {
+		"@stylable/webpack-plugin": "^1.1.4",
+		"wix-ui-tpa": "^1.0.119",
+    "@types/jest": "24.0.11",
+    "find-node-modules": "2.0.0",
+    "jest": "24.5.0",
+    "ts-jest": "24.0.0",
+    "ts-loader": "5.3.3",
+    "ts-node": "8.0.3",
+    "tslint": "5.14.0",
+    "typescript": "3.4.1",
+    "webpack": "4.29.6",
+    "webpack-cli": "3.3.0",
+    "webpack-node-externals": "1.7.2"
+  }
+}
