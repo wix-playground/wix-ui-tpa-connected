@@ -1,23 +1,26 @@
 const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 const StylableWebpackPlugin = require('@stylable/webpack-plugin')
+const fs = require('fs')
+const path = require('path')
+
+const entryPath = path.resolve(__dirname, 'cache/styles')
 
 const exportedConfig = {
-  entry: __dirname + '/generated/index.ts',
+  entry: fs
+    .readdirSync(entryPath)
+    .filter(fileName => fileName.match(/\.js$/))
+    .reduce(
+      (config, fileName) => ({...config, [fileName.replace(/\.js$/, '')]: path.resolve(entryPath, fileName)}),
+      {},
+    ),
   target: 'node',
   mode: 'development',
   plugins: [
     new StylableWebpackPlugin({
       outputCSS: true,
+      // filename: 'components',
       includeCSSInJS: false,
-      optimize: {
-        removeUnusedComponents: true,
-        removeComments: true,
-        removeStylableDirectives: true,
-        classNameOptimizations: true,
-        shortNamespaces: true,
-        minify: true,
-      },
     }),
   ],
   externals: [nodeExternals()],
@@ -25,8 +28,7 @@ const exportedConfig = {
     extensions: ['.webpack.js', '.web.js', '.ts', '.js'],
   },
   output: {
-    path: __dirname + '/dist',
-    filename: 'index.js',
+    path: __dirname + '/cache/built-styles',
     libraryTarget: 'umd',
   },
   resolveLoader: {
