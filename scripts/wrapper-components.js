@@ -3,8 +3,8 @@ const path = require('path')
 const cssTree = require('css-tree')
 const mkdirp = require('mkdirp')
 
-const BUILT_STYLES_ROOT = path.resolve(__dirname, '../cache/built-styles')
-const FINAL_COMPONENT_ROOT = path.resolve(__dirname, 'components')
+const BUILT_STYLES_ROOT = path.resolve(__dirname, '../built-styles')
+const FINAL_COMPONENT_ROOT = path.resolve(__dirname, '../components')
 
 const VARIABLE_PARTS_REGEXP = /\-\-variable\-([A-Za-z0-9]+)\-([A-Za-z0-9]+)/
 
@@ -69,27 +69,42 @@ const getVariableSelectors = () => {
   return variableSelectors
 }
 
-/*
 const generateComponent = componentName => {
   const targetFile = path.resolve(FINAL_COMPONENT_ROOT, `${componentName}.js`)
 
   const componentCode = `
-		require('react')
-		const styles = require('../built-styles/${componentName}');
+		"use strict";
 
-		module.exports = props => {
-			return <${componentName} {...props} />
-		}
+		function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+		var React = require('react');
+
+		var ${componentName} = require('../built-styles/${componentName}.js');
+
+		/*
+		console.log(styles);
+		debugger;
+		*/
+
+		// var ${componentName} = require('wix-ui-tpa/${componentName}').${componentName};
+
+		module.exports = function (props) {
+			return React.createElement(${componentName}, _extends({}, props));
+		};
 	`
+
+  fs.writeFileSync(targetFile, componentCode, {encoding: 'utf8'})
 }
 
 const generateComponents = () => {
+  const variableSelectors = getVariableSelectors()
+  // TODO: Not finished
+
   mkdirp.sync(FINAL_COMPONENT_ROOT)
 
   getComponentNames().forEach(componentName => {
     generateComponent(componentName)
   })
 }
-*/
 
-console.log(JSON.stringify(getVariableSelectors()))
+generateComponents()

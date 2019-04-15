@@ -14,7 +14,7 @@ const exportedConfig = {
       (config, fileName) => ({...config, [fileName.replace(/\.js$/, '')]: path.resolve(entryPath, fileName)}),
       {},
     ),
-  target: 'node',
+  // target: 'node',
   mode: 'development',
   plugins: [
     new StylableWebpackPlugin({
@@ -23,13 +23,14 @@ const exportedConfig = {
       includeCSSInJS: false,
     }),
   ],
-  externals: [nodeExternals()],
+  // externals: [nodeExternals()],
   resolve: {
     extensions: ['.webpack.js', '.web.js', '.ts', '.js'],
   },
   output: {
-    path: __dirname + '/cache/built-styles',
+    path: __dirname + '/built-styles',
     libraryTarget: 'umd',
+    // library: 'component',
   },
   resolveLoader: {
     modules: [__dirname + '/node_modules'],

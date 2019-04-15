@@ -87,6 +87,28 @@ const getComponentVariableMap = () => {
   return map
 }
 
+/*
+const generateJsFile = (componentName, targetDirectory) => {
+  const componentCode = `
+		"use strict";
+
+		function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+		var React = require('react');
+
+		var styles = require('./${componentName}.st.css');
+
+		var ${componentName} = require('wix-ui-tpa/${componentName}').${componentName};
+
+		module.exports = function (props) {
+			return React.createElement(${componentName}, _extends({}, props, styles('root', {}, props)));
+		};
+	`
+
+  fs.writeFileSync(path.resolve(targetDirectory, `${componentName}.js`), componentCode, {encoding: 'utf-8'})
+}
+*/
+
 const generateStylableFile = (componentName, variables, targetDirectory) => {
   const variableLines = []
 
@@ -115,13 +137,31 @@ const generateTemporaryWrapperComponents = componentVariableMap => {
     const targetDirectory = path.resolve(__dirname, `../${OUTPUT_RELATIVE_PATH}`, componentName)
     mkdirp.sync(targetDirectory)
     generateStylableFile(componentName, variables, targetDirectory)
+    // generateJsFile(componentName, targetDirectory)
   })
 }
 
 const generateIndexFile = componentVariableMap => {
   Object.entries(componentVariableMap).forEach(([componentName, variables]) => {
     const targetDirectory = path.resolve(__dirname, `../${OUTPUT_RELATIVE_PATH}`, `${componentName}.js`)
-    fs.writeFileSync(targetDirectory, `require('./${componentName}/${componentName}.st.css')\n`, {encoding: 'utf8'})
+
+    const componentCode = `
+			"use strict";
+
+			function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+			var React = require('react');
+
+			var styles = require('./${componentName}/${componentName}.st.css').default;
+
+			var ${componentName} = require('wix-ui-tpa/${componentName}').${componentName};
+
+			module.exports = function (props) {
+				return React.createElement(${componentName}, _extends({}, props, styles('root', {}, props)));
+			};
+		`
+
+    fs.writeFileSync(targetDirectory, componentCode, {encoding: 'utf-8'})
   })
 }
 

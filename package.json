@@ -9,8 +9,8 @@
     "testSync": "./node_modules/.bin/jest --runInBand --forceExit --detectOpenHandles",
     "lint": "./node_modules/.bin/tslint -c ./tslint.json -p ./tsconfig.json -t stylish ./lib/**/*.ts",
     "buildFakeProject": "node ./scripts/fake-project.js",
-		"buildStyles": "./node_modules/.bin/webpack",
-		"buildWrappers": "node ./scripts/wrapper-components",
+    "buildStyles": "./node_modules/.bin/webpack",
+    "buildWrappers": "node ./scripts/wrapper-components",
     "build": "npm run buildFakeProject && npm run buildStyles && npm run buildWrappers"
   },
   "repository": {
