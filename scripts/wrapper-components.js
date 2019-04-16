@@ -69,7 +69,7 @@ const getVariableSelectors = () => {
   return variableSelectors
 }
 
-const generateComponent = componentName => {
+const generateComponent = (componentName, variableSelectors) => {
   const targetFile = path.resolve(FINAL_COMPONENT_ROOT, `${componentName}.js`)
 
   const componentCode = `
@@ -79,18 +79,39 @@ const generateComponent = componentName => {
 
 		var React = require('react');
 
-		var ${componentName} = require('../built-styles/${componentName}.js');
+		var ${componentName}_ui_tpa = require('../built-styles/${componentName}.js');
+		var inject = require('../style-injector.js').inject
+		var hashProps = require('../style-injector.js').hashProps
+		var getNonStyleVariables = require('../style-injector.js').getNonStyleVariables
 
-		/*
-		console.log(styles);
-		debugger;
-		*/
+		function ${componentName}(props) {
+			React.Component.constructor.call(this);
+			var self = this;
 
-		// var ${componentName} = require('wix-ui-tpa/${componentName}').${componentName};
+			self.variableSelectors = ${JSON.stringify(variableSelectors)};
 
-		module.exports = function (props) {
-			return React.createElement(${componentName}, _extends({}, props));
-		};
+			self.render = function() {
+				return React.createElement("div", {
+					className: hashProps(self.props, self.variableSelectors, '${componentName}')
+				}, React.createElement(${componentName}_ui_tpa, getNonStyleVariables(self.props, self.variableSelectors)));
+			}
+
+			self.updateStyles = function(props) {
+				inject(props, self.variableSelectors, '${componentName}')
+			}
+
+			self.componentWillMount = function() {
+				self.updateStyles(self.props)
+			}
+
+			self.componentWillReceiveProps = function() {
+				self.updateStyles(self.props)
+			}
+		}
+
+		${componentName}.prototype = Object.create(React.Component.prototype);
+
+		module.exports = ${componentName};
 	`
 
   fs.writeFileSync(targetFile, componentCode, {encoding: 'utf8'})
@@ -98,12 +119,11 @@ const generateComponent = componentName => {
 
 const generateComponents = () => {
   const variableSelectors = getVariableSelectors()
-  // TODO: Not finished
 
   mkdirp.sync(FINAL_COMPONENT_ROOT)
 
   getComponentNames().forEach(componentName => {
-    generateComponent(componentName)
+    generateComponent(componentName, variableSelectors[componentName])
   })
 }
 
