@@ -69,6 +69,8 @@ const getVariableSelectors = () => {
   return variableSelectors
 }
 
+// TODO: test with wix-style-processor
+
 const generateComponent = (componentName, variableSelectors) => {
   const targetFile = path.resolve(FINAL_COMPONENT_ROOT, `${componentName}.js`)
 
