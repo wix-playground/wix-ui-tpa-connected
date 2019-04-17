@@ -98,6 +98,8 @@ function injectStyle(value, variableSelectors, hash) {
 
 module.exports = {
   inject: function(props, variableSelectors, componentName) {
+    var t0 = performance.now()
+
     ensureStyleExists()
     const hash = hashProps(props, variableSelectors, componentName)
 
@@ -110,6 +112,10 @@ module.exports = {
     } else {
       console.log('Styles reused by one more component!')
     }
+
+    var t1 = performance.now()
+
+    // console.log(`Injected styles in ${t1 - t0}ms`)
   },
   hashProps,
   getNonStyleVariables,
