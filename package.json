@@ -4,6 +4,7 @@
   "description": "Connection of Wix UI TPA to settings made simple",
   "main": "dist/index.js",
   "scripts": {
+		"clean": "rm -rf ./built-styles && rm -rf ./cache && rm -rf ./components",
     "prepublishOnly": "npm run lint && npm run test && npm run build",
     "test": "./node_modules/.bin/jest --forceExit --detectOpenHandles",
     "testSync": "./node_modules/.bin/jest --runInBand --forceExit --detectOpenHandles",
