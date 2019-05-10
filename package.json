@@ -31,11 +31,14 @@
   "author": "Vytenis Urbonavicius",
   "license": "MIT",
   "homepage": "https://github.com/wix-playground/wix-ui-tpa-connected",
-  "dependencies": {},
+  "dependencies": {
+    "wix-style-processor": "^3.1.10"
+  },
   "devDependencies": {
     "@stylable/webpack-plugin": "^1.1.4",
     "@types/jest": "^24.0.11",
     "find-node-modules": "^2.0.0",
+    "csstype": "^2.6.4",
     "jest": "^24.5.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
