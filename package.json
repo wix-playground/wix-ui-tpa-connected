@@ -7,7 +7,8 @@
     "test": "./node_modules/.bin/jest --forceExit --detectOpenHandles",
     "testSync": "./node_modules/.bin/jest --runInBand --forceExit --detectOpenHandles",
     "lint": "./node_modules/.bin/tslint -c ./tslint.json -p ./tsconfig.json -t stylish ./lib/**/*.ts",
-    "build": "./node_modules/.bin/wutc-generator generate"
+    "build": "./node_modules/.bin/wutc-generator generate && rm -rf ./cache/generator",
+    "clean": "rm ./*.js || true && rm -rf ./cache || true"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
   "devDependencies": {
     "@stylable/webpack-plugin": "^1.1.4",
     "@types/jest": "^24.0.11",
+    "find-node-modules": "^2.0.0",
     "jest": "^24.5.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
