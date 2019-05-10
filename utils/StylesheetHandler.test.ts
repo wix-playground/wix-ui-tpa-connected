@@ -1,5 +1,10 @@
-import {MockDocument} from './lib/mocks'
-import {IStylesheetHandler, StylesheetHandler} from './StylesheetHandler'
+import {
+  MockDocument,
+} from './MockDocument'
+import {
+  IStylesheetHandler,
+  StylesheetHandler,
+} from './StylesheetHandler'
 
 describe('StylesheetHandler: service to interact with stylesheets in the DOM', () => {
   let documentMock: any

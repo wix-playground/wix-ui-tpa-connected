@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 import {
-  MockCssStylesheet
+  MockCssStylesheet,
 } from './MockCssStylesheet'
 /**
  * window.document for tests to interact with stylesheets
@@ -36,7 +36,7 @@ export class MockDocument {
     switch (elementType) {
       case 'style':
         return {
-          sheet: new MockCssStylesheet()
+          sheet: new MockCssStylesheet(),
         }
     }
   }

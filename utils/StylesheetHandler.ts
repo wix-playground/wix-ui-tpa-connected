@@ -2,19 +2,18 @@
  * StylesheetHandler - service to
  */
 export class StylesheetHandler implements IStylesheetHandler {
-  private ruleIndices: IRuleIndices = {}
+  private styleTag: HTMLStyleElement | undefined
   constructor(private document: Document, private componentHash: string) {}
 
   public insertRule(originalSelector: string, styleToSet: string, mediaQuery?: string) {
     const selector = `.${this.componentHash}${originalSelector}`
-    const styleTagId = `${this.componentHash}`
-    let styleTag: HTMLStyleElement =
-      (this.document.getElementById(styleTagId) as HTMLStyleElement) || undefined
-    if (!styleTag) {
-      styleTag = this.createAndAddTag(styleTagId)
+    if (!this.styleTag) {
+        const styleTag =
+          (this.document.getElementById(this.componentHash) as HTMLStyleElement) ||
+          undefined || this.createAndAddTag(this.componentHash)
+        this.styleTag = styleTag
     }
-
-    this.insertCssRule(selector, styleToSet, styleTag.sheet as CSSStyleSheet, mediaQuery)
+    this.insertCssRule(selector, styleToSet, this.styleTag.sheet as CSSStyleSheet, mediaQuery)
   }
 
   public createFragment(css: string) {
@@ -41,10 +40,23 @@ export class StylesheetHandler implements IStylesheetHandler {
 
   private insertCssRule(selector: string, css: string, sheet: CSSStyleSheet, mediaQuery?: string) {
     const rule = this.buildCssRule(selector, css, mediaQuery)
-    const ruleIndex = this.appendRule(rule, sheet)
-    this.removeOldRule(selector, sheet)
-    this.ruleIndices[selector] = ruleIndex
-    this.syncIndices(sheet)
+    this.removeDuplicate(selector)
+    this.appendRule(rule, sheet)
+  }
+
+  private removeDuplicate(selector: string) {
+    const sheet = this.styleTag.sheet as CSSStyleSheet
+    const rules = sheet.rules as CSSRuleList
+    Object.entries(rules).forEach(([key, ruleDefinition]) => {
+      if (key === 'length') {
+        return
+      }
+      const rule = ruleDefinition as CSSPageRule
+      if (rule.selectorText === selector) {
+        const ruleIndex = parseInt(key, 10)
+        sheet.deleteRule(ruleIndex)
+      }
+    })
   }
 
   private buildCssRule(selector: string, cssContent: string, mediaQuery?: string): string {
@@ -63,23 +75,6 @@ export class StylesheetHandler implements IStylesheetHandler {
   private appendRule(rule: string, sheet: CSSStyleSheet) {
     const numberOfRules = sheet.rules.length
     return sheet.insertRule(rule, numberOfRules)
-  }
-
-  private removeOldRule(selector: string, sheet: CSSStyleSheet): void {
-    if (this.ruleIndices[selector] !== undefined) {
-      const removedRuleIndex = this.ruleIndices[selector]
-      sheet.deleteRule(removedRuleIndex)
-    }
-  }
-
-  private syncIndices(sheet: CSSStyleSheet): void {
-    const rules = sheet.rules as CSSRuleList
-    Object.entries(rules).forEach(([key, value]) => {
-      const rule = value as CSSPageRule
-      if (this.ruleIndices[rule.selectorText] !== undefined) {
-        this.ruleIndices[rule.selectorText] = parseInt(key, 10)
-      }
-    })
   }
 }
 

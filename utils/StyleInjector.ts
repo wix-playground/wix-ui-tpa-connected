@@ -48,8 +48,12 @@ export class StyleInjector implements IStyleInjector {
     return Object.entries(componentProps).reduce((res, [prop, variable]) => {
       const userStyle = resolvedStyles[variable]
       const rulesDefinitions = componentVariables[prop].map((variableDeclaration: IVariableStructure) => {
-        return this.buildRule(variableDeclaration, userStyle)
-      })
+        if (userStyle) {
+          return this.buildRule(variableDeclaration, userStyle)
+        }
+
+        return false
+      }).filter(i => !!i)
       return [...res, ...rulesDefinitions]
     }, [])
   }
