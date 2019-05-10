@@ -9,8 +9,10 @@
     "lint": "./node_modules/.bin/tslint -c ./tslint.json -p ./tsconfig.json -t stylish ./lib/**/*.ts",
     "build": "npm run lint && npm run test && ./node_modules/.bin/wutc-generator generate && rm -rf ./cache/generator",
     "buildDev": "./node_modules/.bin/wutc-generator generate && rm -rf ./cache/generator",
-    "clean": "find *.js | grep -v jest.config.js | xargs rm || true && rm -rf ./cache || true",
-    "clean-install": "rm -rf ./node_modules || true && rm ./package-lock.json || true && npm install"
+    "clean": "mv ./package.json.real -f ./package.json || true && find *.js | grep -v jest.config.js | xargs rm || true && rm -rf ./cache || true",
+		"clean-install": "rm -rf ./node_modules || true && rm ./package-lock.json || true && npm install",
+		"fake-package": "mv ./package.json ./package.json.real && cp ./node-modules/wix-ui-tpa-connected-generator/package.json .",
+		"restore-package": "mv ./package.json.real ./package.json.mv && mv -f ./package.json.mv ./package.json"
   },
   "repository": {
     "type": "git",
