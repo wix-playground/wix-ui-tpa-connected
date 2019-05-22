@@ -7,7 +7,7 @@
     "test": "./node_modules/.bin/jest --forceExit --detectOpenHandles",
     "testSync": "./node_modules/.bin/jest --runInBand --forceExit --detectOpenHandles",
     "lint": "./node_modules/.bin/tslint -c ./tslint.json -p ./tsconfig.json -t stylish ./lib/**/*.ts",
-    "build": "npm run lint && npm run test && npm run buildDev",
+    "build": "npm run lint && npm run test && npm run buildDev && ./node_modules/.bin/tsc ./utils/* --outDir ./dist --lib es2015,es2017,dom",
     "buildDev": "./node_modules/.bin/wutc-generator generate || true && rm -rf ./cache/generator",
     "clean": "find *.js | grep -v jest.config.js | xargs rm || true && rm -rf ./cache || true",
     "clean-install": "rm -rf ./node_modules || true && rm ./package-lock.json || true && npm install"
@@ -31,14 +31,19 @@
   "author": "Vytenis Urbonavicius",
   "license": "MIT",
   "homepage": "https://github.com/wix-playground/wix-ui-tpa-connected",
-  "dependencies": {},
+  "dependencies": {
+    "wix-style-processor": "^3.1.10"
+  },
   "devDependencies": {
     "@stylable/webpack-plugin": "^1.1.4",
     "@types/jest": "^24.0.11",
+    "@types/sinon": "^7.0.11",
+    "csstype": "^2.6.4",
     "find-node-modules": "^2.0.0",
     "jest": "^24.5.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "sinon": "^7.3.2",
     "ts-jest": "^24.0.0",
     "ts-node": "^8.0.3",
     "tslint": "^5.14.0",

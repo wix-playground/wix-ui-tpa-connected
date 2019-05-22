@@ -14,10 +14,10 @@ module.exports = {
 	"verbose": false,
 	"coverageThreshold": {
 		"global": {
-			"branches": 100,
-			"functions": 100,
-			"lines": 100,
-			"statements": 100
+			"branches": 0,
+			"functions": 20,
+			"lines": 50,
+			"statements": 30
 		}
 	},
 	"collectCoverageFrom": [
