@@ -54,5 +54,6 @@
     "webpack-cli": "^3.3.2",
     "wix-ui-tpa": "^1.0.119",
     "wix-ui-tpa-connected-generator": "^1.0.0"
-  }
+	},
+	"publishConfig": {}
 }
