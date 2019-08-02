@@ -1,4 +1,4 @@
-import { ISettingsChangeObserver, IWixSDK, IWixService} from './types'
+import {ISettingsChangeObserver, IWixSDK, IWixService} from './types'
 import {WixService} from './WixService'
 
 /**
@@ -16,8 +16,7 @@ export class SettingsChangeObserver implements ISettingsChangeObserver {
     return this
   }
 
-  public updateOnChange = (updateCallback: (changedValues:
-      {[variable: string]: string | undefined}) => void): void => {
+  public updateOnChange = (updateCallback: (changedValues: {[variable: string]: string | undefined}) => void): void => {
     this.wixService.onStyleParamsChange(userSettings => {
       const updatedValues = this.variablesToObserve.reduce((variableMap, variable) => {
         return {...variableMap, [variable]: userSettings[variable]}

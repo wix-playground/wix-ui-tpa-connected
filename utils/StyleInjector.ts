@@ -1,11 +1,6 @@
 import wixStyleProcessor from 'wix-style-processor'
-import {
-  DomServiceFactory,
-} from './DomService'
-import {
-  IStylesheetHandler,
-  StylesheetHandler,
-} from './StylesheetHandler'
+import {DomServiceFactory} from './DomService'
+import {IStylesheetHandler, StylesheetHandler} from './StylesheetHandler'
 /**
  * StyleInjector
  */
@@ -20,7 +15,7 @@ export class StyleInjector implements IStyleInjector {
     this.styleSheetHandler = new StylesheetHandler(this.document, this.componentHash)
   }
 
-  public addInitialCss(stylesheetContent: string): Promise < void > {
+  public addInitialCss(stylesheetContent: string): Promise<void> {
     /**
      *  since domService isn't directly exposed - write a test to check if such import succeeds:
      *  check that import statement returns a proper object with expected methods - better break at build than runtime
@@ -47,13 +42,15 @@ export class StyleInjector implements IStyleInjector {
   ): ICssInjection[] => {
     return Object.entries(componentProps).reduce((res, [prop, variable]) => {
       const userStyle = resolvedStyles[variable]
-      const rulesDefinitions = componentVariables[prop].map((variableDeclaration: IVariableStructure) => {
-        if (userStyle) {
-          return this.buildRule(variableDeclaration, userStyle)
-        }
+      const rulesDefinitions = componentVariables[prop]
+        .map((variableDeclaration: IVariableStructure) => {
+          if (userStyle) {
+            return this.buildRule(variableDeclaration, userStyle)
+          }
 
-        return false
-      }).filter(i => !!i)
+          return false
+        })
+        .filter(i => !!i)
       return [...res, ...rulesDefinitions]
     }, [])
   }
@@ -71,11 +68,12 @@ export class StyleInjector implements IStyleInjector {
  * IStyleInjector
  */
 export interface IStyleInjector {
-  addInitialCss(stylesheetContent: string): Promise < void >
-    updateComponentStyle(
-      componentProps: IVariableMap,
-      componentVariables: IComponentVariables,
-      resolvedStyles: IVariableMap): void
+  addInitialCss(stylesheetContent: string): Promise<void>
+  updateComponentStyle(
+    componentProps: IVariableMap,
+    componentVariables: IComponentVariables,
+    resolvedStyles: IVariableMap,
+  ): void
 }
 
 /**
@@ -89,7 +87,7 @@ export interface IComponentVariables {
  * IVariableStructure
  */
 export interface IVariableStructure {
-  mediaQuery ?: string
+  mediaQuery?: string
   selector: string
   declaration: string
 }
@@ -106,5 +104,5 @@ export interface IVariableMap {
 export interface ICssInjection {
   selector: string
   cssContent: string
-  mediaQuery ?: string
+  mediaQuery?: string
 }

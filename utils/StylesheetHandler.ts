@@ -8,10 +8,11 @@ export class StylesheetHandler implements IStylesheetHandler {
   public insertRule(originalSelector: string, styleToSet: string, mediaQuery?: string) {
     const selector = `.${this.componentHash}${originalSelector}`
     if (!this.styleTag) {
-        const styleTag =
-          (this.document.getElementById(this.componentHash) as HTMLStyleElement) ||
-          undefined || this.createAndAddTag(this.componentHash)
-        this.styleTag = styleTag
+      const styleTag =
+        (this.document.getElementById(this.componentHash) as HTMLStyleElement) ||
+        undefined ||
+        this.createAndAddTag(this.componentHash)
+      this.styleTag = styleTag
     }
     this.insertCssRule(selector, styleToSet, this.styleTag.sheet as CSSStyleSheet, mediaQuery)
   }
