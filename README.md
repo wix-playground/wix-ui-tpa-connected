@@ -69,6 +69,34 @@ Connected components also support all additional props which are available in or
 
 Notice that typography is derived from original "wix-ui-tpa" component.
 
+## APIs through ref
+
+Some WIX UI TPA components may have APIs exposed through ref. For example:
+
+```
+<StatesButton
+	disabled={false}
+	ref={this.statesButtonRef}
+	onClick={() => {
+		this.statesButtonRef.current.onProgressReset()
+	}}
+	text="My States Button"
+/>
+```
+
+This API is forwarded to "WIX UI TPA Connected" via "getApi" method:
+
+```
+<StatesButton
+	disabled={false}
+	ref={this.statesButtonRef}
+	onClick={() => {
+		this.statesButtonRef.current.getApi().onProgressReset()
+	}}
+	text="My States Button"
+/>
+```
+
 ## Next Steps for Contributors
 
 - Re-export constants from original "wix-ui-tpa"
