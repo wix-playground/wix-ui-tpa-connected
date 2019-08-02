@@ -72,6 +72,7 @@ Notice that typography is derived from original "wix-ui-tpa" component.
 ## Next Steps for Contributors
 
 - Re-export constants from original "wix-ui-tpa"
+- TypeScript suggestions
 - Regression testing
 - Life-cycle publishing automation
 - Various optimizations

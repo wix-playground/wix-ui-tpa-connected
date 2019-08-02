@@ -42,6 +42,11 @@ export class StyleInjector implements IStyleInjector {
   ): ICssInjection[] => {
     return Object.entries(componentProps).reduce((res, [prop, variable]) => {
       const userStyle = resolvedStyles[variable]
+
+      if (!componentVariables[prop]) {
+        return res
+      }
+
       const rulesDefinitions = componentVariables[prop]
         .map((variableDeclaration: IVariableStructure) => {
           if (userStyle) {
