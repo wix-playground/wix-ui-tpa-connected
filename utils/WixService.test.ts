@@ -2,6 +2,10 @@ import {IStyleParams} from './types'
 import {sdkMock, siteColors, siteTextPresets, userStyles} from './wix-sdk-mock'
 import {WixService} from './WixService'
 
+function hold(timeout: number) {
+  return new Promise(resolve => setTimeout(resolve, timeout))
+}
+
 describe('WixService: communication through wix sdk', () => {
   it('should return style data', async () => {
     const wixService = new WixService(sdkMock)
@@ -11,35 +15,35 @@ describe('WixService: communication through wix sdk', () => {
     expect(usersStyleParams).toEqual(userStyles)
   })
 
-  it('onStyleParamsChange it should call a callback with flattened structure of variables', () => {
-    const callback = jest.fn()
+  it('onStyleParamsChange it should call a callback with flattened structure of variables', async () => {
+    const callback = jest.fn(() => {
+      expect(callback.mock.calls[0]).toEqual([{
+        'myMainFont': 'something',
+        'someSettingsColor': 'red',
+        'Body-L': 'stuff helvetica',
+        'Body-M': 'normal normal normal 15px/1.4em proxima-n-w01-reg,sans-serif;',
+        'Body-S': 'stuff helvetica',
+        'Body-XS': 'stuff helvetica',
+        'Heading-L': 'stuff helvetica',
+        'Heading-M': 'stuff helvetica',
+        'Heading-S': 'stuff helvetica',
+        'Heading-XL': 'stuff helvetica',
+        'Page-title': 'stuff helvetica',
+        'Title': 'stuff helvetica',
+        'Menu': 'stuff helvetica',
+        'some-color-reference': '#fff',
+        'name': '#fff',
+        'white': '#FFFFFF',
+        'black': '#000000',
+      }])
+    })
     const sdkWithMockEventListener = {
       ...sdkMock, addEventListener: (event = 'probably_style_change', callbackFn: () => void) => {
       callbackFn()
       return 0
     }}
     const wixService = new WixService(sdkWithMockEventListener)
-    wixService.onStyleParamsChange(callback)
-
-    expect(callback.mock.calls[0]).toEqual([{
-      'myMainFont': 'something',
-      'someSettingsColor': 'red',
-      'Body-L': 'stuff helvetica',
-      'Body-M': 'normal normal normal 15px/1.4em proxima-n-w01-reg,sans-serif;',
-      'Body-S': 'stuff helvetica',
-      'Body-XS': 'stuff helvetica',
-      'Heading-L': 'stuff helvetica',
-      'Heading-M': 'stuff helvetica',
-      'Heading-S': 'stuff helvetica',
-      'Heading-XL': 'stuff helvetica',
-      'Page-title': 'stuff helvetica',
-      'Title': 'stuff helvetica',
-      'Menu': 'stuff helvetica',
-      'some-color-reference': '#fff',
-      'name': '#fff',
-      'white': '#FFFFFF',
-      'black': '#000000',
-    }])
+    await wixService.onStyleParamsChange(callback)
   })
 
   it('should remove old event listener if new one is being registered', () => {

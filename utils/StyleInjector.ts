@@ -1,6 +1,7 @@
 import wixStyleProcessor from 'wix-style-processor'
 import {DomServiceFactory} from './DomService'
 import {IStylesheetHandler, StylesheetHandler} from './StylesheetHandler'
+import { WixService } from './WixService'
 /**
  * StyleInjector
  */
@@ -8,9 +9,11 @@ export class StyleInjector implements IStyleInjector {
   private styleSheetHandler: IStylesheetHandler
   constructor(
     private readonly document: Document,
-    // private readonly wixSdk: any,
     private readonly componentHash: string, // hash props here locally
+    private readonly wixSdk?: any,
   ) {
+
+    console.log('style injector constructor',this.wixSdk)
     // const compId = this.wixSdk.Utils.getCompId() // compId as app level scoping/hash
     this.styleSheetHandler = new StylesheetHandler(this.document, this.componentHash)
   }
@@ -21,7 +24,11 @@ export class StyleInjector implements IStyleInjector {
      *  check that import statement returns a proper object with expected methods - better break at build than runtime
      */
     const domService = new DomServiceFactory(this.styleSheetHandler).buildNewDomService(stylesheetContent)
-    return wixStyleProcessor.init({}, domService)
+    if (this.wixSdk) {
+      return wixStyleProcessor.init({}, domService, new WixService(this.wixSdk))
+    } else {
+      return wixStyleProcessor.init({}, domService)
+    }
   }
 
   public updateComponentStyle(

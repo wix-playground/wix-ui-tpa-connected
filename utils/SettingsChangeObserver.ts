@@ -8,6 +8,7 @@ export class SettingsChangeObserver implements ISettingsChangeObserver {
   private readonly wixService: IWixService
   private variablesToObserve: string[]
   constructor(wixSdk: IWixSDK) {
+    console.log('wix sdk in settings change observer', wixSdk)
     this.wixService = new WixService(wixSdk)
   }
 
