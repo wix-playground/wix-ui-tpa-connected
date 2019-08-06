@@ -100,6 +100,7 @@ This API is forwarded to "WIX UI TPA Connected" via "getApi" method:
 ## Next Steps for Contributors
 
 - Support for frameless and SSR (WIP)
+- Allow adding custom values to component variables.
 - Re-export constants from original "wix-ui-tpa"
 - TypeScript suggestions
 - Regression testing
