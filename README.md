@@ -73,7 +73,7 @@ Notice that typography is derived from original "wix-ui-tpa" component.
 
 Some WIX UI TPA components may have APIs exposed through ref. For example:
 
-```
+```javascript
 <StatesButton
 	disabled={false}
 	ref={this.statesButtonRef}
@@ -86,7 +86,7 @@ Some WIX UI TPA components may have APIs exposed through ref. For example:
 
 This API is forwarded to "WIX UI TPA Connected" via "getApi" method:
 
-```
+```javascript
 <StatesButton
 	disabled={false}
 	ref={this.statesButtonRef}
