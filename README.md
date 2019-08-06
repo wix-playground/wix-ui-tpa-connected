@@ -99,9 +99,11 @@ This API is forwarded to "WIX UI TPA Connected" via "getApi" method:
 
 ## Next Steps for Contributors
 
+- Support for frameless and SSR (WIP)
 - Re-export constants from original "wix-ui-tpa"
 - TypeScript suggestions
 - Regression testing
 - Life-cycle publishing automation
 - Various optimizations
 - Logging during build to make errors more clear
+- Ability to provide custom configuration for non standard component file structures
