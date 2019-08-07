@@ -12,9 +12,6 @@ export class StyleInjector implements IStyleInjector {
     private readonly componentHash: string, // hash props here locally
     private readonly wixSdk?: any,
   ) {
-
-    console.log('style injector constructor',this.wixSdk)
-    // const compId = this.wixSdk.Utils.getCompId() // compId as app level scoping/hash
     this.styleSheetHandler = new StylesheetHandler(this.document, this.componentHash)
   }
 
