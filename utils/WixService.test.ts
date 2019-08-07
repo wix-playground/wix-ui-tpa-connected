@@ -2,10 +2,6 @@ import {IStyleParams} from './types'
 import {sdkMock, siteColors, siteTextPresets, userStyles} from './wix-sdk-mock'
 import {WixService} from './WixService'
 
-function hold(timeout: number) {
-  return new Promise(resolve => setTimeout(resolve, timeout))
-}
-
 describe('WixService: communication through wix sdk', () => {
   it('should return style data', async () => {
     const wixService = new WixService(sdkMock)
