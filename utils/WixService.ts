@@ -4,15 +4,16 @@ import { ISiteColor, ISiteTextPresets, IStyleParams, IUserSettings, IWixSDK, IWi
  * WixService
  */
 export class WixService implements IWixService {
+  public listenToStyleParamsChange = this.onStyleParamsChange
   private eventListenerId: number = null
   constructor(private readonly WixSdk: IWixSDK) {}
 
-  public getStyleParams(): [ISiteColor[], ISiteTextPresets, IStyleParams] {
-    return [
+  public getStyleParams(): Promise<[ISiteColor[], ISiteTextPresets, IStyleParams]> {
+    return Promise.all([
       this.getSiteColors(),
       this.getTextPresets(),
       this.getUserStyles(),
-    ]
+    ])
   }
 
   public onStyleParamsChange(callback: (data: IUserSettings) => void) {
@@ -27,15 +28,37 @@ export class WixService implements IWixService {
     this.callWithStyleValueMap(callback)
   }
 
+  public isEditorMode(): boolean {
+    return this.WixSdk.Utils.getViewMode() === 'editor'
+  }
+
+  public isPreviewMode(): boolean {
+    return this.WixSdk.Utils.getViewMode() === 'preview'
+  }
+
+  public isStandaloneMode(): boolean {
+    return this.WixSdk.Utils.getViewMode() === 'standalone'
+  }
+
+  public shouldRunAsStandalone(): boolean {
+    return this.isStandaloneMode() || this.withoutStyleCapabilites()
+  }
+
+  public withoutStyleCapabilites(): boolean {
+    return !this.WixSdk.Styles
+  }
+
   private readonly callWithStyleValueMap = (callback: (styleValues: IUserSettings) => void) => {
-    const [siteColors, siteTextPresets, userStyleData] = this.getStyleParams()
-    if (userStyleData) {
-      const flattenedUserStyleParams = this
-          .extractUserStyleValues(userStyleData)(['fonts', 'colors', 'numbers', 'booleans'])
-      const siteColorMap = this.extractSiteColorValues(siteColors)
-      const siteFontsMap = this.extractSiteFontValues(siteTextPresets)
-      callback({ ...flattenedUserStyleParams, ...siteColorMap, ...siteFontsMap })
-    }
+    this.getStyleParams()
+      .then(([siteColors, siteTextPresets, userStyleData]) => {
+        if (userStyleData) {
+          const flattenedUserStyleParams = this
+              .extractUserStyleValues(userStyleData)(['fonts', 'colors', 'numbers', 'booleans'])
+          const siteColorMap = this.extractSiteColorValues(siteColors)
+          const siteFontsMap = this.extractSiteFontValues(siteTextPresets)
+          callback({ ...flattenedUserStyleParams, ...siteColorMap, ...siteFontsMap })
+        }
+      })
   }
 
   private readonly extractSiteColorValues = (siteColors: ISiteColor[]) => {

@@ -1,13 +1,14 @@
 {
   "name": "wix-ui-tpa-connected",
-  "version": "1.0.195",
+  "version": "1.0.196",
   "description": "Connection of Wix UI TPA to settings made simple",
   "scripts": {
     "prepublishOnly": "npm run build",
     "test": "./node_modules/.bin/jest --forceExit --detectOpenHandles",
     "testSync": "./node_modules/.bin/jest --runInBand --forceExit --detectOpenHandles",
     "lint": "./node_modules/.bin/tslint -c ./tslint.json -p ./tsconfig.json -t stylish ./lib/**/*.ts",
-    "build": "npm run lint && npm run test && npm run generate && ./node_modules/.bin/tsc ./utils/* --outDir ./dist --lib es2015,es2017,dom",
+    "build": "npm run lint && npm run test && npm run generate && ./node_modules/.bin/tsc ./utils/* --outDir ./dist --lib es2015,es2017,dom && npm run moveWrapper",
+    "moveWrapper": "mv ./dist/withWutc.js ./",
     "generate": "./node_modules/.bin/wutc-generator generate || true && rm -rf ./cache/generator",
     "clean": "find *.js | grep -v jest.config.js | xargs rm || true && rm -rf ./cache || true",
     "clean-install": "rm -rf ./node_modules || true && rm ./package-lock.json || true && npm install"
@@ -53,7 +54,7 @@
     "webpack": "^4.31.0",
     "webpack-cli": "^3.3.2",
     "wix-ui-tpa": "^1.0.119",
-    "wix-ui-tpa-connected-generator": "^1.1.0"
+    "wix-ui-tpa-connected-generator": "^1.1.1"
   },
   "publishConfig": {}
 }

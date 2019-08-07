@@ -70,6 +70,9 @@ export const sdkMock: IWixSDK = {
     getSiteColors: () => siteColors,
     getStyleParams: () => userStyles,
   },
+  Utils: {
+    getViewMode: () => 'Site',
+  },
   // istanbul ignore next
   addEventListener: (e: string, callback: () => void) => 0,
   // istanbul ignore next
