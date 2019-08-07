@@ -32,8 +32,7 @@
   "license": "MIT",
   "homepage": "https://github.com/wix-playground/wix-ui-tpa-connected",
   "dependencies": {
-    "wix-style-processor": "^3.1.10",
-    "wix-ui-tpa-analyser": "^1.0.0"
+    "wix-style-processor": "^3.1.10"
   },
   "devDependencies": {
     "@stylable/webpack-plugin": "^1.1.4",
