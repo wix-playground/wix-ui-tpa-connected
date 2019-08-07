@@ -1,7 +1,7 @@
 import wixStyleProcessor from 'wix-style-processor'
 import {DomServiceFactory} from './DomService'
 import {IStylesheetHandler, StylesheetHandler} from './StylesheetHandler'
-import { WixService } from './WixService'
+import {WixService} from './WixService'
 /**
  * StyleInjector
  */
