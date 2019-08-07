@@ -97,9 +97,21 @@ This API is forwarded to "WIX UI TPA Connected" via "getApi" method:
 />
 ```
 
+## Frameless support
+
+In order to run "wix-ui-tpa-connected" on frameless environment in Wix one needs to wrap root component of their app or widget with a HOC:
+
+```javascript
+import {withWutc} from 'wix-ui-tpa-connected/withWutc'
+
+class RootComponent...
+
+export default withWutc(RootComponent)
+```
+
 ## Next Steps for Contributors
 
-- Support for frameless and SSR (WIP)
+- Support for SSR (not tested yet)
 - Allow adding custom values to component variables.
 - Re-export constants from original "wix-ui-tpa"
 - TypeScript suggestions
