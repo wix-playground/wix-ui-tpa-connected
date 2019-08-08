@@ -1,6 +1,6 @@
 {
   "name": "wix-ui-tpa-connected",
-  "version": "1.0.197",
+  "version": "1.0.198",
   "description": "Connection of Wix UI TPA to settings made simple",
   "scripts": {
     "prepublishOnly": "npm run build",
