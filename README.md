@@ -9,6 +9,8 @@ This library carries a pre-bundled wrapped version of "wix-ui-tpa" components wi
 Library contains wrappers for all components available inside "wix-ui-tpa". Component documentation can be found here:
 https://wix-wix-ui-tpa.surge.sh
 
+In order for components to work in OOI and SSR, please use provided HOC (see "Frameless support" below).
+
 Component integration example:
 
 ```javascript
@@ -34,7 +36,7 @@ Example of connection to settings:
 <Text settings={{MainTextColor: 'someSettingsKey'}} />
 ```
 
-in settings panel (e.g. using editor-uI-lib)
+In settings panel (e.g. using editor-uI-lib)
 
 ```javascript
 <UI.colorPickerInput wix-param={'someSettingsKey'} />
@@ -111,7 +113,6 @@ export default withWutc(RootComponent)
 
 ## Next Steps for Contributors
 
-- Support for SSR (not tested yet)
 - Allow adding custom values to component variables.
 - Re-export constants from original "wix-ui-tpa"
 - TypeScript suggestions
