@@ -19,7 +19,7 @@ This library carries a pre-bundled wrapped version of "wix-ui-tpa" components wi
 **Best practices:**
 * Use a fixed version of "WIX UI TPA Connected" in "package.json" for now. Should new version break some components, it would not impact your project.
 * Should a certain component not work properly in "WIX UI TPA Connected", "WIX UI TPA" component can be used directly - usage of both libraries at the same time should not cause problems.
-* It would be best not to import same component from both "WIX UI TPA Connected" and "WIX UI TPA" in different places of the same project in order not to increase bundle size too much.
+* It would be best not to import same component from both "WIX UI TPA Connected" and "WIX UI TPA" in different places of the same project in order not to increase bundle size unnecessarily.
 
 ---
 
