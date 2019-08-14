@@ -11,7 +11,15 @@ This library carries a pre-bundled wrapped version of "wix-ui-tpa" components wi
 Library contains wrappers for all components available inside "wix-ui-tpa". Component documentation can be found here:
 https://wix-wix-ui-tpa.surge.sh
 
-In order for components to work in OOI and SSR, please use provided HOC (see "Frameless support" below).
+In order to run "wix-ui-tpa-connected" on OOI/SSR environment in Wix one needs to wrap root component of their app or widget with a HOC:
+
+```javascript
+import {withWutc} from 'wix-ui-tpa-connected/withWutc'
+
+class RootComponent...
+
+export default withWutc(RootComponent)
+```
 
 Component integration example:
 
@@ -36,12 +44,6 @@ Example of connection to settings:
 
 ```javascript
 <Text settings={{MainTextColor: 'someSettingsKey'}} />
-```
-
-In settings panel (e.g. using editor-uI-lib)
-
-```javascript
-<UI.colorPickerInput wix-param={'someSettingsKey'} />
 ```
 
 Keys of settings correspond to Stylable variable names available for this component in the original "wix-ui-tpa" library. For example - documentation about available variables for Text can be found here:
@@ -75,6 +77,25 @@ Notice that typography is derived from original "wix-ui-tpa" component.
 
 ---
 
+## Interaction API Through Reference
+
+Some WIX UI TPA components may have APIs exposed through reference. In "WIX UI TPA Connected" this reference can be obtained using "getApi" method:
+
+```javascript
+<StatesButton
+  disabled={false}
+  ref={this.statesButtonRef}
+  onClick={() => {
+    this.statesButtonRef.current.getApi().onProgressReset()
+  }}
+  text="My States Button"
+/>
+```
+
+Above example code differs from original "WIX UI TPA" components only by usage of "getApi()". All remaining code is identical.
+
+---
+
 ## Forced Style Override And Customization
 
 Sometimes situations occur when components need to be customized by providing custom variable values. Example of such values:
@@ -103,50 +124,6 @@ Syntax example for overriding:
 Values provided under "forcedStyleOverride" are parsed using "Wix Style Processor" (if needed) and then injected directly into CSS. When using "Wix Style Processor" syntax, whole expression needs to be wrapped with additional double quotes.
 
 **Important:** Same variable should never be provided both under "settings" and "forcedStyleOverride".
-
----
-
-## API Through Reference
-
-Some WIX UI TPA components may have APIs exposed through ref. For example:
-
-```javascript
-<StatesButton
-  disabled={false}
-  ref={this.statesButtonRef}
-  onClick={() => {
-    this.statesButtonRef.current.onProgressReset()
-  }}
-  text="My States Button"
-/>
-```
-
-This API is forwarded to "WIX UI TPA Connected" via "getApi" method:
-
-```javascript
-<StatesButton
-  disabled={false}
-  ref={this.statesButtonRef}
-  onClick={() => {
-    this.statesButtonRef.current.getApi().onProgressReset()
-  }}
-  text="My States Button"
-/>
-```
-
----
-
-## OOI/SSR support
-
-In order to run "wix-ui-tpa-connected" on OOI/SSR environment in Wix one needs to wrap root component of their app or widget with a HOC:
-
-```javascript
-import {withWutc} from 'wix-ui-tpa-connected/withWutc'
-
-class RootComponent...
-
-export default withWutc(RootComponent)
-```
 
 ---
 
