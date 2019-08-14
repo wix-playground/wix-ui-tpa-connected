@@ -150,6 +150,7 @@ Values provided under "forcedStyleOverride" are parsed using "Wix Style Processo
 - TypeScript suggestions
 - Regression testing
 - Life-cycle publishing automation
+- Version sync between WIX UI TPA and WIX UI TPA Connected
 - Various optimizations
 - Logging during build to make errors more clear
 - Ability to provide custom configuration for non standard component file structures
