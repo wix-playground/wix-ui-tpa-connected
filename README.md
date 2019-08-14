@@ -4,6 +4,23 @@ Integrating WIX UI TPA components made simple.
 
 This library carries a pre-bundled wrapped version of "wix-ui-tpa" components with additional ability to connect them to application settings using component props.
 
+**Pros:**
+* Much less boilerplate when consuming components.
+* All properties and API of original "WIX UI TPA" is available.
+* Dependency on Stylable becomes optional (i.e. to avoid using multiple style pre-processors in parallel).
+* Ability to re-use or dynamically construct logic for connecting to settings.
+* Works on iframes, OOI and SSR.
+
+**Cons:**
+* Complex build procedure which is currently likely to build a broken "wix-ui-tpa-connected" version.
+* Possibly slightly larger bundle size. Since components are built separately, there is a chance of some code duplication in those bundles.
+* There is a possibility that a fraction of components would not work properly. For example "Grid" currently also exports "Grid.Item" and "WIX UI TPA Connected" is not yet capable of exporting "Item" under "Grid" in this way.
+
+**Best practices:**
+* Use a fixed version of "WIX UI TPA Connected" in "package.json" for now. Should new version break some components, it would not impact your project.
+* Should a certain component not work properly in "WIX UI TPA Connected", "WIX UI TPA" component can be used directly - usage of both libraries at the same time should not cause problems.
+* It would be best not to import same component from both "WIX UI TPA Connected" and "WIX UI TPA" in different places of the same project in order not to increase bundle size too much.
+
 ---
 
 ## Component Usage
