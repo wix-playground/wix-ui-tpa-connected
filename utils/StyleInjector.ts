@@ -21,6 +21,7 @@ export class StyleInjector implements IStyleInjector {
      *  check that import statement returns a proper object with expected methods - better break at build than runtime
      */
     const domService = new DomServiceFactory(this.styleSheetHandler).buildNewDomService(stylesheetContent)
+
     if (this.wixSdk) {
       return wixStyleProcessor.init({}, domService, new WixService(this.wixSdk))
     } else {
@@ -32,14 +33,29 @@ export class StyleInjector implements IStyleInjector {
     componentProps: IVariableMap,
     componentVariables: IComponentVariables,
     resolvedStyles: IVariableMap,
-  ): void {
+  ) {
     const rulesToInject = this.createCssRules(componentProps, componentVariables, resolvedStyles)
     rulesToInject.forEach((rule: ICssInjection) => {
       this.styleSheetHandler.insertRule(rule.selector, rule.cssContent, rule.mediaQuery)
     })
   }
 
-  private readonly createCssRules = (
+  public generateComponentStyle(
+    componentProps: IVariableMap,
+    componentVariables: IComponentVariables,
+    resolvedStyles: IVariableMap,
+  ) {
+    let style = ''
+
+    const rulesToInject = this.createCssRules(componentProps, componentVariables, resolvedStyles)
+    rulesToInject.forEach((rule: ICssInjection) => {
+      style += this.styleSheetHandler.buildCssRule(rule.selector, rule.cssContent, rule.mediaQuery)
+    })
+
+    return style
+  }
+
+  public readonly createCssRules = (
     componentProps: IVariableMap,
     componentVariables: IComponentVariables,
     resolvedStyles: IVariableMap,

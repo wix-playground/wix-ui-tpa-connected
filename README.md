@@ -4,6 +4,8 @@ Integrating WIX UI TPA components made simple.
 
 This library carries a pre-bundled wrapped version of "wix-ui-tpa" components with additional ability to connect them to application settings using component props.
 
+---
+
 ## Component Usage
 
 Library contains wrappers for all components available inside "wix-ui-tpa". Component documentation can be found here:
@@ -71,18 +73,51 @@ Connected components also support all additional props which are available in or
 
 Notice that typography is derived from original "wix-ui-tpa" component.
 
-## APIs through ref
+---
+
+## Forced Style Override And Customization
+
+Sometimes situations occur when components need to be customized by providing custom variable values. Example of such values:
+
+- Fixed styles which cannot be achieved using supported component attributes and their values.
+- Connection to settings with non-standard default value to be used if settings are not yet defined in settings panel.
+
+**Important:** Providing customs styles may cause inconsistent style on site and may also break component should styles of original component change.
+
+Before choosing to override styles it should be attempted to:
+
+- Raise with UX that design is not consistent with what is supported by TPA components.
+- Extend TPA components with missing design.
+
+Syntax example for overriding:
+
+```javascript
+<Text
+  forcedStyleOverride={{
+    MainTextFont: `"fallback(font(--pageTitleFonts), font({theme: 'Page-title', size: '26px'}))"`,
+    MainTextColor: 'red',
+  }}
+/>
+```
+
+Values provided under "forcedStyleOverride" are parsed using "Wix Style Processor" (if needed) and then injected directly into CSS. When using "Wix Style Processor" syntax, whole expression needs to be wrapped with additional double quotes.
+
+**Important:** Same variable should never be provided both under "settings" and "forcedStyleOverride".
+
+---
+
+## API Through Reference
 
 Some WIX UI TPA components may have APIs exposed through ref. For example:
 
 ```javascript
 <StatesButton
-	disabled={false}
-	ref={this.statesButtonRef}
-	onClick={() => {
-		this.statesButtonRef.current.onProgressReset()
-	}}
-	text="My States Button"
+  disabled={false}
+  ref={this.statesButtonRef}
+  onClick={() => {
+    this.statesButtonRef.current.onProgressReset()
+  }}
+  text="My States Button"
 />
 ```
 
@@ -90,18 +125,20 @@ This API is forwarded to "WIX UI TPA Connected" via "getApi" method:
 
 ```javascript
 <StatesButton
-	disabled={false}
-	ref={this.statesButtonRef}
-	onClick={() => {
-		this.statesButtonRef.current.getApi().onProgressReset()
-	}}
-	text="My States Button"
+  disabled={false}
+  ref={this.statesButtonRef}
+  onClick={() => {
+    this.statesButtonRef.current.getApi().onProgressReset()
+  }}
+  text="My States Button"
 />
 ```
 
-## Frameless support
+---
 
-In order to run "wix-ui-tpa-connected" on frameless environment in Wix one needs to wrap root component of their app or widget with a HOC:
+## OOI/SSR support
+
+In order to run "wix-ui-tpa-connected" on OOI/SSR environment in Wix one needs to wrap root component of their app or widget with a HOC:
 
 ```javascript
 import {withWutc} from 'wix-ui-tpa-connected/withWutc'
@@ -111,9 +148,10 @@ class RootComponent...
 export default withWutc(RootComponent)
 ```
 
+---
+
 ## Next Steps for Contributors
 
-- Allow adding custom values to component variables.
 - Re-export constants from original "wix-ui-tpa"
 - TypeScript suggestions
 - Regression testing

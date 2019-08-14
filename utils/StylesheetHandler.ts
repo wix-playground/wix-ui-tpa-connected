@@ -24,11 +24,21 @@ export class StylesheetHandler implements IStylesheetHandler {
   }
 
   public createTagWithContent(cssContent: string) {
+    // FIXME: remove old tag if one exists with same id
     const style = this.document.createElement('style')
     style.type = 'text/css'
     style.id = `${this.componentHash}-default-style`
     style.textContent = cssContent
     this.document.head.appendChild(style)
+  }
+
+  public buildCssRule(selector: string, cssContent: string, mediaQuery?: string): string {
+    const rule = `${selector} {${cssContent}}`
+    if (mediaQuery) {
+      return this.wrapWithMediaQuery(rule, mediaQuery)
+    }
+
+    return rule
   }
 
   private createAndAddTag(styleTagId: string): HTMLStyleElement {
@@ -60,15 +70,6 @@ export class StylesheetHandler implements IStylesheetHandler {
     })
   }
 
-  private buildCssRule(selector: string, cssContent: string, mediaQuery?: string): string {
-    const rule = `${selector} {${cssContent}}`
-    if (mediaQuery) {
-      return this.wrapWithMediaQuery(rule, mediaQuery)
-    }
-
-    return rule
-  }
-
   private wrapWithMediaQuery(cssRule: string, mediaQuery: string): string {
     return `@media ${mediaQuery} {${cssRule}}`
   }
@@ -84,6 +85,7 @@ export class StylesheetHandler implements IStylesheetHandler {
  */
 export interface IStylesheetHandler {
   insertRule(selector: string, styleToSet: string, mediaQuery?: string): void
+  buildCssRule(selector: string, styleToSet: string, mediaQuery?: string): string
   createFragment(css: string): DocumentFragment
   createTagWithContent(cssContent: string): void
 }
