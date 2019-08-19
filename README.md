@@ -146,11 +146,12 @@ Values provided under "forcedStyleOverride" are parsed using "Wix Style Processo
 
 ## Next Steps for Contributors
 
+- Create a definition file in "wix-ui-tpa" listing all components supported variables and use it instead of "wix-ui-tpa-analyser"
+- Externalize Stylable variable analysis (where they appear in final CSS) to Stylable itself and remove double-build procedure
 - Re-export constants from original "wix-ui-tpa"
-- TypeScript suggestions
-- Regression testing
-- Life-cycle publishing automation
-- Version sync between WIX UI TPA and WIX UI TPA Connected
-- Various optimizations
-- Logging during build to make errors more clear
-- Ability to provide custom configuration for non standard component file structures
+- Add TS definition files and support TypeScript suggestions
+- Create a regression testing solution to make sure that new versions do not miss any components or features from previous version
+- Implement life-cycle publishing automation to publich "connected" library as soon as "wix-ui-tpa" is updated.
+- Sync versions between WIX UI TPA and WIX UI TPA Connected allowing for independent fixes inside "wix-ui-tpa-connected". Probably need one additional npm package to allow that.
+- Concentrate on optimizing dynamic style manipulations.
+- Implement logging during build to make errors more clear
