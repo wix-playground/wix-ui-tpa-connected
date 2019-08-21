@@ -21,6 +21,9 @@ This library carries a pre-bundled wrapped version of "wix-ui-tpa" components wi
 * Should a certain component not work properly in "WIX UI TPA Connected", "WIX UI TPA" component can be used directly - usage of both libraries at the same time should not cause problems.
 * It would be best not to import same component from both "WIX UI TPA Connected" and "WIX UI TPA" in different places of the same project in order not to increase bundle size unnecessarily.
 
+**Current state:**
+Components are already usable but build procedure is not yet reliable enough. Other todos are listed at the bottom of this page.
+
 ---
 
 ## Component Usage
@@ -146,12 +149,12 @@ Values provided under "forcedStyleOverride" are parsed using "Wix Style Processo
 
 ## Next Steps for Contributors
 
-- Create a definition file in "wix-ui-tpa" listing all components supported variables and use it instead of "wix-ui-tpa-analyser"
-- Externalize Stylable variable analysis (where they appear in final CSS) to Stylable itself and remove double-build procedure
-- Re-export constants from original "wix-ui-tpa"
-- Add TS definition files and support TypeScript suggestions
-- Create a regression testing solution to make sure that new versions do not miss any components or features from previous version
+- Create a definition file in "wix-ui-tpa" listing all components, where they are defined and how they are exported. For example grid item needs to be exported as "Grid.Item".
+- Externalize Stylable variable analysis to Stylable itself and remove double-build procedure. Stylable could provide meta information about what variables have been used and where their values landed.
+- Re-export constants from original "wix-ui-tpa".
+- Add TS definition files and support TypeScript suggestions.
+- Create a regression testing solution to make sure that new versions do not miss any components or features from previous version.
 - Implement life-cycle publishing automation to publich "connected" library as soon as "wix-ui-tpa" is updated.
 - Sync versions between WIX UI TPA and WIX UI TPA Connected allowing for independent fixes inside "wix-ui-tpa-connected". Probably need one additional npm package to allow that.
 - Concentrate on optimizing dynamic style manipulations.
-- Implement logging during build to make errors more clear
+- Implement logging during build to make errors more clear.
