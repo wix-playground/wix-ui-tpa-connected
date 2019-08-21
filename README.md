@@ -1,5 +1,9 @@
 # WIX UI TPA Connected
 
+
+#### Important: <br /><br /> Implementation of current solution will be re-worked as next POC iteration therefore it is not recommended to integrate it to production at this point. Current solution might not be compatible with CSS caching ideas for the future. Next generation of "wix-ui-tpa-connected" will likely have similar syntax but more responsibilities would be moved to build as opposed to runtime operations.
+<br />
+
 Integrating WIX UI TPA components made simple.
 
 This library carries a pre-bundled wrapped version of "wix-ui-tpa" components with additional ability to connect them to application settings using component props.
