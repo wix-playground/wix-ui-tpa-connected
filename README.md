@@ -4,6 +4,26 @@ Integrating WIX UI TPA components made simple.
 
 This library carries a pre-bundled wrapped version of "wix-ui-tpa" components with additional ability to connect them to application settings using component props.
 
+**Pros:**
+* Much less boilerplate when consuming components.
+* All properties and API of original "WIX UI TPA" is available.
+* Dependency on Stylable becomes optional (i.e. to avoid using multiple style pre-processors in parallel).
+* Ability to re-use or dynamically construct logic for connecting to settings.
+* Works on iframes, OOI and SSR.
+
+**Cons:**
+* Complex build procedure which is currently likely to build a broken "wix-ui-tpa-connected" version.
+* Possibly slightly larger bundle size. Since components are built separately, there is a chance of some code duplication in those bundles.
+* There is a possibility that a fraction of components would not work properly. For example "Grid" currently also exports "Grid.Item" and "WIX UI TPA Connected" is not yet capable of exporting "Item" under "Grid" in this way.
+
+**Best practices:**
+* Use a fixed version of "WIX UI TPA Connected" in "package.json" for now. Should new version break some components, it would not impact your project.
+* Should a certain component not work properly in "WIX UI TPA Connected", "WIX UI TPA" component can be used directly - usage of both libraries at the same time should not cause problems.
+* It would be best not to import same component from both "WIX UI TPA Connected" and "WIX UI TPA" in different places of the same project in order not to increase bundle size unnecessarily.
+
+**Current state:**
+Components are already usable but build procedure is not yet reliable enough. Other todos are listed at the bottom of this page.
+
 ---
 
 ## Component Usage
@@ -11,7 +31,15 @@ This library carries a pre-bundled wrapped version of "wix-ui-tpa" components wi
 Library contains wrappers for all components available inside "wix-ui-tpa". Component documentation can be found here:
 https://wix-wix-ui-tpa.surge.sh
 
-In order for components to work in OOI and SSR, please use provided HOC (see "Frameless support" below).
+In order to run "wix-ui-tpa-connected" on OOI/SSR environment in Wix one needs to wrap root component of their app or widget with a HOC:
+
+```javascript
+import {withWutc} from 'wix-ui-tpa-connected/withWutc'
+
+class RootComponent...
+
+export default withWutc(RootComponent)
+```
 
 Component integration example:
 
@@ -36,12 +64,6 @@ Example of connection to settings:
 
 ```javascript
 <Text settings={{MainTextColor: 'someSettingsKey'}} />
-```
-
-In settings panel (e.g. using editor-uI-lib)
-
-```javascript
-<UI.colorPickerInput wix-param={'someSettingsKey'} />
 ```
 
 Keys of settings correspond to Stylable variable names available for this component in the original "wix-ui-tpa" library. For example - documentation about available variables for Text can be found here:
@@ -72,6 +94,25 @@ Connected components also support all additional props which are available in or
 ```
 
 Notice that typography is derived from original "wix-ui-tpa" component.
+
+---
+
+## Interaction API Through Reference
+
+Some WIX UI TPA components may have APIs exposed through reference. In "WIX UI TPA Connected" this reference can be obtained using "getApi" method:
+
+```javascript
+<StatesButton
+  disabled={false}
+  ref={this.statesButtonRef}
+  onClick={() => {
+    this.statesButtonRef.current.getApi().onProgressReset()
+  }}
+  text="My States Button"
+/>
+```
+
+Above example code differs from original "WIX UI TPA" components only by usage of "getApi()". All remaining code is identical.
 
 ---
 
@@ -106,56 +147,14 @@ Values provided under "forcedStyleOverride" are parsed using "Wix Style Processo
 
 ---
 
-## API Through Reference
-
-Some WIX UI TPA components may have APIs exposed through ref. For example:
-
-```javascript
-<StatesButton
-  disabled={false}
-  ref={this.statesButtonRef}
-  onClick={() => {
-    this.statesButtonRef.current.onProgressReset()
-  }}
-  text="My States Button"
-/>
-```
-
-This API is forwarded to "WIX UI TPA Connected" via "getApi" method:
-
-```javascript
-<StatesButton
-  disabled={false}
-  ref={this.statesButtonRef}
-  onClick={() => {
-    this.statesButtonRef.current.getApi().onProgressReset()
-  }}
-  text="My States Button"
-/>
-```
-
----
-
-## OOI/SSR support
-
-In order to run "wix-ui-tpa-connected" on OOI/SSR environment in Wix one needs to wrap root component of their app or widget with a HOC:
-
-```javascript
-import {withWutc} from 'wix-ui-tpa-connected/withWutc'
-
-class RootComponent...
-
-export default withWutc(RootComponent)
-```
-
----
-
 ## Next Steps for Contributors
 
-- Re-export constants from original "wix-ui-tpa"
-- TypeScript suggestions
-- Regression testing
-- Life-cycle publishing automation
-- Various optimizations
-- Logging during build to make errors more clear
-- Ability to provide custom configuration for non standard component file structures
+- Create a definition file in "wix-ui-tpa" listing all components, where they are defined and how they are exported. For example grid item needs to be exported as "Grid.Item".
+- Externalize Stylable variable analysis to Stylable itself and remove double-build procedure. Stylable could provide meta information about what variables have been used and where their values landed.
+- Re-export constants from original "wix-ui-tpa".
+- Add TS definition files and support TypeScript suggestions.
+- Create a regression testing solution to make sure that new versions do not miss any components or features from previous version.
+- Implement life-cycle publishing automation to publich "connected" library as soon as "wix-ui-tpa" is updated.
+- Sync versions between WIX UI TPA and WIX UI TPA Connected allowing for independent fixes inside "wix-ui-tpa-connected". Probably need one additional npm package to allow that.
+- Concentrate on optimizing dynamic style manipulations.
+- Implement logging during build to make errors more clear.
