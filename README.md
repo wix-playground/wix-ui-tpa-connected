@@ -6,7 +6,7 @@ This library carries a pre-bundled wrapped version of "wix-ui-tpa" components wi
 
 **Current state summary:**
 
-- **Important! Scripts for required build step are under construction.**
+- Build script is only available as a CLI tool (_wix-ui-tpa-connected-css-builder_) - WebPack plugin is not yet implemented.
 - Components are usable.
 - Other todos are listed at the bottom of this page.
 
@@ -58,7 +58,7 @@ class SomeComponent extends React.Component {
 
 Example of connection to settings:
 
-```html
+```JavaScript
 <Text settings="myConnection" />
 ```
 
@@ -91,7 +91,9 @@ JSON structure above should be understood as follows:
 | 2nd   | Connection Name | Developer-provided string which will be used in "settings" property like this: `<Text settings="connectionName" />` |
 | 3rd   | Variable Name   | Stylable variable name supported in original "wix-ui-tpa" library                                                   |
 
-Stylable variable names can be found in "wix-ui-tpa" documentation:
+**Important!** In order for settings rules to be operational, project must be built using "wix-ui-tpa-connected-css-builder" tool.
+
+_Stylable_ variable names can be found in "wix-ui-tpa" documentation:
 https://wix-wix-ui-tpa.surge.sh/?path=/story/components--text
 
 Look for similar code example there:
