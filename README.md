@@ -62,7 +62,7 @@ Example of connection to settings:
 <Text settings="myConnection" />
 ```
 
-In order for above code to work, "myConnection" needs to be specified in a JSON config file inside a project. Path and name to this file can be configured at build time. However, for consistency reasons it is advised to use: "someProject/settings-rules.json".
+In order for above code to work, "myConnection" needs to be specified in a JSON config file inside a project. Path and name to this file can be configured at build time. However, for consistency reasons it is advised to use: "someProject/settings-panel.json".
 
 Example of JSON including "myConnection" rule:
 
